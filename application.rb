@@ -24,8 +24,8 @@ module FacebookScraper
       @browser.link(href: %r{/sharer.php}).wait_until_present.click
       @browser.link(css: '._56bz._54k8._55i1._58a0.touchable').click
       
-      sleep 5000
-
+      # Random sleep time from 1..20s
+      sleep rand(20) + 1
       @browser.quit
 
     rescue
