@@ -3,7 +3,7 @@ class ProgressBar
     progress = 'Progress ['
 
     percents = (current.to_f / total * 100).round(0)
-    progress << '=' * percents
+    progress << '=>' * percents
 
     print "\r"
     print "#{progress} #{percents}%]"
