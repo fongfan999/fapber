@@ -1,5 +1,24 @@
 module Fapber 
   class Page < Application
+    def like
+      begin
+        self.sign_in
+
+        # Wait until the like button present
+        like_button = @browser.link(href: /profile\.php\?fan/)
+          .wait_until_present(timeout: 5)
+
+        # Click the like button when It's not been liked
+        like_button.click unless like_button.class_name.include?('_5kqs')
+      rescue Watir::Wait::TimeoutError
+        # Facebook require checkpoint, so like_button is not present
+        # The timeout exception will be raised after 5 seconds
+        @browser.quit
+      end
+
+      @browser.quit
+    end
+
     def review(options = {})
       begin
         # Add '/reviews' to the end of @url

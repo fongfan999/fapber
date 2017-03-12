@@ -21,13 +21,11 @@ module Fapber
       begin
         self.sign_in
         # Wait until the like button present
-        like_button = @browser.element(data_uri: %r{ufi/reaction/?})
+        like_button = @browser.link(data_uri: %r{ufi/reaction/\?})
           .wait_until_present(timeout: 5)
 
         # Click the like button when It's not been liked
-        unless @browser.link(css: '._2q8z').exists?
-          like_button.click
-        end
+        like_button.click unless like_button.class_name.include?('._2q8z')
       rescue Watir::Wait::TimeoutError
         # Facebook require checkpoint, so like_button is not present
         # The timeout exception will be raised after 5 seconds
