@@ -2,7 +2,7 @@ class Reger
   def self.get_new_user
     first_name = Faker::Name.first_name
     last_name = Faker::Name.last_name
-    email = Faker::Commerce.promotion_code.downcase + '@gmail.com'
+    email = Faker::Commerce.promotion_code.downcase + '@vps911.net'
 
     agent = Mechanize.new
     agent.user_agent_alias = 'Android'

@@ -1,16 +1,21 @@
-module FacebookScraper 
+module Fapber 
   module Like
     class Photo < Application  
       def run
-        @browser.goto(@url)
-        @browser.element(css: '#m_loginbar_login_button').click
-        @browser.text_field(name: 'email').set(@email)
-        @browser.text_field(name: 'pass').set(@pass)
-        @browser.send_keys :enter
+        begin
+          self.sign_in
+          # Wait until the like button present
+          like_button = @browser.element(data_uri: %r{ufi/reaction/?})
+                                .wait_until_present(timeout: 5)
 
-        like_button = @browser.element(data_uri: %r{ufi/reaction/?}).wait_until_present
-        unless @browser.link(css: '._2q8z').exists?
-          like_button.click
+          # Click the like button when It's not been liked
+          unless @browser.link(css: '._2q8z').exists?
+            like_button.click
+          end
+        rescue Watir::Wait::TimeoutError => e
+          # Facebook require checkpoint, so like_button is not present
+          # The timeout exception will be raised after 5 seconds
+          @browser.quit
         end
 
         @browser.quit

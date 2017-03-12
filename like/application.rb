@@ -1,6 +1,6 @@
-module FacebookScraper
+module Fapber
   module Like
-    class Application < FacebookScraper::Application
+    class Application < Fapber::Application
     end
   end
 end

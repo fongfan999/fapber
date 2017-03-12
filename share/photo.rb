@@ -1,18 +1,25 @@
-module FacebookScraper 
+module Fapber 
   module Share
     class Photo < Application  
       def run(options = {count: 1})
-        @browser.goto(@url)
-        @browser.element(css: '#m_loginbar_login_button').click
-        @browser.text_field(name: 'email').set(@email)
-        @browser.text_field(name: 'pass').set(@pass)
-        @browser.send_keys :enter
+        self.sign_in
 
+        # Share count times
         options[:count].times do
-          @browser.link(href: %r{/sharer.php}).wait_until_present.click
+          begin
+          # Open dropdown menu
+          @browser.link(href: %r{/sharer.php})
+                  .wait_until_present(timeout: 5)
+                  .click
+          # Share now
           @browser.link(css: '._56bz._54k8._55i1._58a0.touchable').click
-
+          # Delay time for the next sharing
           sleep rand(5)
+          rescue Watir::Wait::TimeoutError => e
+            # Facebook require checkpoint, so like_button is not present
+            # The timeout exception will be raised after 5 seconds
+            next
+          end
         end
 
         @browser.quit
