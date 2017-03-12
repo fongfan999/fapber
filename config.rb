@@ -1,5 +1,5 @@
 # Available modules
-FAPBER_MODULES = %w(like share review sign_up)
+FAPBER_MODULES = %w(account page photo post)
 
 # External gems
 require 'json'
